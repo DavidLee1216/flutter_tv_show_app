@@ -4,8 +4,11 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import '../bloc/tv_show_bloc.dart';
 import '../model/favorite_model.dart';
 import '../service/db_helper.dart';
+import '../service/local_storage.dart';
 import '../widget/favorite_item_form.dart';
 import '../widget/movie_item_form.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
+
 
 class FavoriteScreen extends StatefulWidget {
   @override
@@ -54,6 +57,10 @@ class _FavoriteListWidget extends State<FavoriteListWidget > {
   Future<List<FavoriteShow>> getAllFavorites() async{
     DBHelper dbHelper = DBHelper();
 //    await dbHelper.dropTable();
+    if(kIsWeb){
+      LocalStorageHelper localStorageHelper = LocalStorageHelper();
+      data = await localStorageHelper.getAllFavorites();
+    } else
     data = await dbHelper.getAllFavorites();
     return data;
   }

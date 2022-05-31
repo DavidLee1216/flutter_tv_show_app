@@ -125,8 +125,7 @@ class ShowListWidget extends StatefulWidget {
 }
 
 class _ShowListWidgetState extends State<ShowListWidget> {
-  final _scrollController = ScrollController();
-
+  ScrollController _scrollController = ScrollController(initialScrollOffset: 0.0);
   final _scrollThreshold = 20.0;
 
   int maxPage = 1;
@@ -138,6 +137,10 @@ class _ShowListWidgetState extends State<ShowListWidget> {
   @override
   void initState() {
     super.initState();
+//    _scrollController = ScrollController(                         // NEW
+//      initialScrollOffset: 0.0,                                       // NEW
+//      keepScrollOffset: true,                                         // NEW
+//    );
     _scrollController.addListener(_onScroll);
     bloc = BlocProvider.of<ShowBloc>(context);
   }
@@ -166,6 +169,7 @@ class _ShowListWidgetState extends State<ShowListWidget> {
                 maxCrossAxisExtent: 220,
                 childAspectRatio: 1/2,
               ),
+              shrinkWrap: false,
               itemCount: state.showList != null ? state.showList.length : 0,
               itemBuilder: (BuildContext context, int index) {
                 return MovieItemForm(
@@ -190,14 +194,27 @@ class _ShowListWidgetState extends State<ShowListWidget> {
   void _onScroll() {
     final maxScroll = _scrollController.position.maxScrollExtent;
     final currentScroll = _scrollController.position.pixels;
-    if (maxScroll - currentScroll > 5 &&
-        maxScroll - currentScroll <= _scrollThreshold &&
-        bloc != null) {
+//    if (maxScroll - currentScroll > 5 &&
+//        maxScroll - currentScroll <= _scrollThreshold &&
+//        bloc != null) {
+//      if (kind == EnumShowEvent.Load)
+//        bloc.add(ShowLoadEvent(page: maxPage + 1));
+//      else
+//        bloc.add(ShowSearchEvent(searchWord: searchWord, page: maxPage + 1));
+//      Future.delayed(Duration(milliseconds: 200), () {});
+//    }
+    if (_scrollController.offset >=
+        _scrollController.position.maxScrollExtent &&
+        !_scrollController.position.outOfRange) {
       if (kind == EnumShowEvent.Load)
         bloc.add(ShowLoadEvent(page: maxPage + 1));
       else
         bloc.add(ShowSearchEvent(searchWord: searchWord, page: maxPage + 1));
       Future.delayed(Duration(milliseconds: 200), () {});
+
+//      setState(() {
+//
+//        });
+      }
     }
-  }
 }

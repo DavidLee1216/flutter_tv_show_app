@@ -4,9 +4,11 @@ import 'package:flutter_tv_show_app/model/favorite_model.dart';
 import 'package:flutter_tv_show_app/model/tv_show_model.dart';
 import 'package:flutter_tv_show_app/screen/tv_show_detail.dart';
 import 'package:flutter_tv_show_app/service/db_helper.dart';
+import 'package:flutter_tv_show_app/service/local_storage.dart';
 import 'package:flutter_tv_show_app/utils/navigation.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
-class TVShowDetailArguments{
+class TVShowDetailArguments {
   final TVShowModel showModel;
   TVShowDetailArguments({this.showModel});
 }
@@ -30,9 +32,17 @@ class _MovieItemFormState extends State<MovieItemForm> {
           img_url: widget.showModel.poster_path,
           overview: widget.showModel.overview,
           name: widget.showModel.name);
-      await dbHelper.insertData(show);
+      if (kIsWeb) {
+        LocalStorageHelper localStorageHelper = LocalStorageHelper();
+        localStorageHelper.insert(show);
+      } else
+        await dbHelper.insertData(show);
     } else {
-      await dbHelper.deleteData(widget.showModel.id);
+      if (kIsWeb) {
+        LocalStorageHelper localStorageHelper = LocalStorageHelper();
+        localStorageHelper.remove(widget.showModel.id);
+      } else
+        await dbHelper.deleteData(widget.showModel.id);
     }
     setState(() {});
   }
@@ -40,7 +50,14 @@ class _MovieItemFormState extends State<MovieItemForm> {
   Future<bool> checkFavorite() async {
     DBHelper dbHelper = DBHelper();
 //    await dbHelper.dropTable();
-    if (await dbHelper.getData(widget.showModel.id) != null) isFavorite = true;
+    if(kIsWeb){
+      LocalStorageHelper localStorageHelper = LocalStorageHelper();
+      if(await localStorageHelper.checkId(widget.showModel.id))
+        isFavorite = true;
+      else
+        isFavorite = false;
+    }
+    else if (await dbHelper.getData(widget.showModel.id) != null) isFavorite = true;
     return isFavorite;
   }
 
@@ -58,7 +75,8 @@ class _MovieItemFormState extends State<MovieItemForm> {
                 onTap: () {
 //                  Navigator.pushNamed(context, '/detail',
 //                      arguments: TVShowDetailArguments(showModel: widget.showModel));
-                    pushTo(context, TVShowDetailScreen(showModel: widget.showModel));
+                  pushTo(
+                      context, TVShowDetailScreen(showModel: widget.showModel));
                 },
                 child: Stack(
                   children: [
