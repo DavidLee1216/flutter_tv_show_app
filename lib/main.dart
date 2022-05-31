@@ -1,9 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_tv_show_app/repository/tv_show_repository.dart';
 import 'package:flutter_tv_show_app/screen/favorite.dart';
 import 'package:flutter_tv_show_app/screen/home.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 
-void main() {
-  runApp(MyApp());
+import 'bloc/tv_show_bloc.dart';
+
+void main() async {
+  await dotenv.load(fileName: ".env");
+  TVShowRepository showRepository = new TVShowRepository();
+  runApp(
+    BlocProvider<ShowBloc>(
+        lazy: false,
+        create: (context) => ShowBloc(showRepository: showRepository),
+        child: MyApp()),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -50,15 +62,11 @@ class _MyHomePageState extends State<MyHomePage> {
           backgroundColor: Colors.white,
           items: const <BottomNavigationBarItem>[
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.home
-              ),
+              icon: Icon(Icons.home),
               label: 'All',
             ),
             BottomNavigationBarItem(
-              icon: Icon(
-                Icons.favorite_rounded
-              ),
+              icon: Icon(Icons.favorite_rounded),
               label: 'Favorites',
             ),
           ],

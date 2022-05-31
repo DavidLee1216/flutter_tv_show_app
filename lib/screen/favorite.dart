@@ -12,9 +12,6 @@ class _FavoriteScreenState extends State<FavoriteScreen> {
       appBar: AppBar(
         title: Text(
           'Favorite Movies',
-          style: TextStyle(
-            fontFamily: 'HDharmony',
-          ),
         ),
         centerTitle: true,
       ),
