@@ -11,7 +11,9 @@ https://user-images.githubusercontent.com/55806398/171167108-a3025139-9fd1-4e2c-
 web app
 
 
-https://user-images.githubusercontent.com/55806398/171176330-01e850f3-87b1-4747-b4be-20ebb24430ff.mp4
 
-web app doesn't support add to favorite functionality at the moment. Because sqflite didn't work for flutter web app.
-In future, I could add "add to favorite" functionality to web app as well using Firebase or local storage.
+
+https://user-images.githubusercontent.com/55806398/171208265-9aca9d18-5ab2-4313-8560-6ce883c03941.mp4
+
+
+Web app uses local storage to save favorite information.
