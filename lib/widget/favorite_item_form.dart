@@ -65,7 +65,7 @@ class _FavoriteMovieItemFormState extends State<FavoriteMovieItemForm> {
                               child: Column(
                                 children: [
                                   Text(
-                                    widget.showModel.name,
+                                    widget.showModel.name??"",
                                     overflow: TextOverflow.ellipsis,
                                     style: TextStyle(
                                         fontSize: 20,

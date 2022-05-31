@@ -105,7 +105,7 @@ class _MovieItemFormState extends State<MovieItemForm> {
                                   child: Column(
                                     children: [
                                       Text(
-                                        widget.showModel.name,
+                                        widget.showModel.name??"",
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 20,
@@ -113,7 +113,7 @@ class _MovieItemFormState extends State<MovieItemForm> {
                                             color: Colors.black),
                                       ),
                                       Text(
-                                        widget.showModel.first_air_date,
+                                        widget.showModel.first_air_date??"",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,

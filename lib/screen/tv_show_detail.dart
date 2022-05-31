@@ -68,7 +68,7 @@ class _TVShowDetailScreenState extends State<TVShowDetailScreen> {
                   width: 30,
                 ),
                 Text(
-                  widget.showModel.name,
+                  widget.showModel.name??"",
                   style: TextStyle(
                       fontSize: 30,
                       fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class _TVShowDetailScreenState extends State<TVShowDetailScreen> {
                     height: 10,
                   ),
                   Text(
-                    widget.showModel.first_air_date,
+                    widget.showModel.first_air_date??"",
                   ),
                 ])
               ],
@@ -93,7 +93,7 @@ class _TVShowDetailScreenState extends State<TVShowDetailScreen> {
             Padding(
               padding: EdgeInsets.only(left: 20, right: 20),
               child: Text(
-                widget.showModel.overview,
+                widget.showModel.overview??"",
                 style: TextStyle(
                     fontSize: 20,
                     fontWeight: FontWeight.normal,
