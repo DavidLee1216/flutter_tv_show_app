@@ -27,3 +27,8 @@ Implemented BLoC architecture using flutter-bloc.
 Used Material Design for flutter.
    
 To build mobile application, you should remove all the codes related to local storage. It is only for web app.
+
+
+
+https://user-images.githubusercontent.com/55806398/171254311-a6af273f-cfd2-4b80-a437-4961faa96a43.mp4
+
