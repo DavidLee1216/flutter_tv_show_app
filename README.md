@@ -26,3 +26,4 @@ Tech Stack: Flutter,
 Implemented BLoC architecture using flutter-bloc.
 Used Material Design for flutter.
    
+To build mobile application, you should remove all the codes related to local storage. It is only for web app.

@@ -4,9 +4,9 @@ import 'package:flutter_tv_show_app/model/favorite_model.dart';
 import 'package:flutter_tv_show_app/model/tv_show_model.dart';
 import 'package:flutter_tv_show_app/screen/tv_show_detail.dart';
 import 'package:flutter_tv_show_app/service/db_helper.dart';
-import 'package:flutter_tv_show_app/service/local_storage.dart';
+//import 'package:flutter_tv_show_app/service/local_storage.dart';
 import 'package:flutter_tv_show_app/utils/navigation.dart';
-import 'package:flutter/foundation.dart' show kIsWeb;
+//import 'package:flutter/foundation.dart' show kIsWeb;
 
 class TVShowDetailArguments {
   final TVShowModel showModel;
@@ -32,31 +32,18 @@ class _MovieItemFormState extends State<MovieItemForm> {
           img_url: widget.showModel.poster_path,
           overview: widget.showModel.overview,
           name: widget.showModel.name);
-      if (kIsWeb) {
-        LocalStorageHelper localStorageHelper = LocalStorageHelper();
-        localStorageHelper.insert(show);
-      } else
-        await dbHelper.insertData(show);
+
+      await dbHelper.insertData(show);
     } else {
-      if (kIsWeb) {
-        LocalStorageHelper localStorageHelper = LocalStorageHelper();
-        localStorageHelper.remove(widget.showModel.id);
-      } else
-        await dbHelper.deleteData(widget.showModel.id);
+      await dbHelper.deleteData(widget.showModel.id);
     }
     setState(() {});
   }
 
   Future<bool> checkFavorite() async {
     DBHelper dbHelper = DBHelper();
-    if(kIsWeb){
-      LocalStorageHelper localStorageHelper = LocalStorageHelper();
-      if(await localStorageHelper.checkId(widget.showModel.id))
-        isFavorite = true;
-      else
-        isFavorite = false;
-    }
-    else if (await dbHelper.getData(widget.showModel.id) != null) isFavorite = true;
+//    await dbHelper.dropTable();
+    if (await dbHelper.getData(widget.showModel.id) != null) isFavorite = true;
     return isFavorite;
   }
 
@@ -104,7 +91,7 @@ class _MovieItemFormState extends State<MovieItemForm> {
                                   child: Column(
                                     children: [
                                       Text(
-                                        widget.showModel.name??"",
+                                        widget.showModel.name ?? "",
                                         overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 20,
@@ -112,7 +99,7 @@ class _MovieItemFormState extends State<MovieItemForm> {
                                             color: Colors.black),
                                       ),
                                       Text(
-                                        widget.showModel.first_air_date??"",
+                                        widget.showModel.first_air_date ?? "",
                                         style: TextStyle(
                                             fontSize: 14,
                                             fontWeight: FontWeight.w400,

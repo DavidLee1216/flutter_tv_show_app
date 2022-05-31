@@ -2,7 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../bloc/tv_show_bloc.dart';
-import '../widget/movie_item_form.dart';
+import '../widget/movie_item_form_only_mobile.dart';
+//import '../widget/movie_item_form.dart';
 
 class HomeScreen extends StatefulWidget {
   @override
@@ -137,10 +138,6 @@ class _ShowListWidgetState extends State<ShowListWidget> {
   @override
   void initState() {
     super.initState();
-//    _scrollController = ScrollController(                         // NEW
-//      initialScrollOffset: 0.0,                                       // NEW
-//      keepScrollOffset: true,                                         // NEW
-//    );
     _scrollController.addListener(_onScroll);
     bloc = BlocProvider.of<ShowBloc>(context);
   }
@@ -205,7 +202,7 @@ class _ShowListWidgetState extends State<ShowListWidget> {
 //      Future.delayed(Duration(milliseconds: 200), () {});
 //    }
     if (_scrollController.offset >=
-        _scrollController.position.maxScrollExtent &&
+        maxScroll &&
         !_scrollController.position.outOfRange) {
       if (kind == EnumShowEvent.Load)
         bloc.add(ShowLoadEvent(page: maxPage + 1));
