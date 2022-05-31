@@ -29,7 +29,9 @@ class _TVShowDetailScreenState extends State<TVShowDetailScreen> {
       body: Container(
         child: Column(
           children: [
-            SizedBox(height: 30,),
+            SizedBox(
+              height: 30,
+            ),
             widget.showModel.poster_path != null
                 ? Image.network(
                     dotenv.env['IMAGE_BASE_URL'] + widget.showModel.poster_path,
@@ -43,6 +45,28 @@ class _TVShowDetailScreenState extends State<TVShowDetailScreen> {
             Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
+                Column(
+                  children: [
+                    Text(
+                      "Vote",
+                      style: TextStyle(
+                        fontSize: 13,
+                        fontWeight: FontWeight.normal,
+                        color: Colors.green,
+                      ),
+                    ),
+                    Text(
+                      widget.showModel.vote_average.toString(),
+                      style: TextStyle(
+                          fontSize: 15,
+                          fontWeight: FontWeight.bold,
+                          color: Colors.pink),
+                    ),
+                  ],
+                ),
+                SizedBox(
+                  width: 30,
+                ),
                 Text(
                   widget.showModel.name,
                   style: TextStyle(
@@ -50,13 +74,19 @@ class _TVShowDetailScreenState extends State<TVShowDetailScreen> {
                       fontWeight: FontWeight.bold,
                       color: Colors.black),
                 ),
-                SizedBox(width: 10,),
-                Text(
-                  widget.showModel.first_air_date,
-                )
+                SizedBox(
+                  width: 10,
+                ),
+                Column(children: [
+                  SizedBox(
+                    height: 10,
+                  ),
+                  Text(
+                    widget.showModel.first_air_date,
+                  ),
+                ])
               ],
             ),
-
             SizedBox(
               height: 15,
             ),

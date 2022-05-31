@@ -88,6 +88,7 @@ class _MovieItemFormState extends State<MovieItemForm> {
                                     children: [
                                       Text(
                                         widget.showModel.name,
+                                        overflow: TextOverflow.ellipsis,
                                         style: TextStyle(
                                             fontSize: 20,
                                             fontWeight: FontWeight.bold,
