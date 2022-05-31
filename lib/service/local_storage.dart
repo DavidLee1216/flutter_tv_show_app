@@ -2,6 +2,7 @@ import 'dart:html';
 import 'dart:convert';
 
 import 'package:flutter_tv_show_app/model/favorite_model.dart';
+import 'package:flutter/foundation.dart' show kIsWeb;
 
 class LocalStorageHelper {
   final Storage localStorage = window.localStorage;

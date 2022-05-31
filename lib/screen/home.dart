@@ -170,6 +170,7 @@ class _ShowListWidgetState extends State<ShowListWidget> {
                 childAspectRatio: 1/2,
               ),
               shrinkWrap: false,
+              controller: _scrollController,
               itemCount: state.showList != null ? state.showList.length : 0,
               itemBuilder: (BuildContext context, int index) {
                 return MovieItemForm(

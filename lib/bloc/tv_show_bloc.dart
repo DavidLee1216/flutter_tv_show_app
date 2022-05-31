@@ -42,11 +42,13 @@ class ShowState {
       this.isLoading = false});
 
   ShowState _setProps(
-          {EnumShowEvent kind, List<TVShowModel> showList, bool isLoading}) =>
+          {EnumShowEvent kind, List<TVShowModel> showList, bool isLoading, int page}) =>
       ShowState(
           kind: kind ?? this.kind,
           showList: showList ?? this.showList,
-          isLoading: isLoading ?? false);
+          isLoading: isLoading ?? false,
+          page: page ?? this.page,
+      );
 
   factory ShowState.init() => ShowState();
   ShowState search(List<TVShowModel> showList) =>
@@ -77,7 +79,7 @@ class ShowBloc extends Bloc<ShowEvent, ShowState> {
             await showRepository.getTotalShowStream(page: state.page + 1);
         yield ShowState(
             kind: EnumShowEvent.Load,
-            showList: stream.results,
+            showList: state.page!=0?state.showList + stream.results: stream.results,
             keyword: '',
             page: state.page + 1);
       } catch (e) {
