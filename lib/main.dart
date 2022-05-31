@@ -4,6 +4,7 @@ import 'package:flutter_tv_show_app/repository/tv_show_repository.dart';
 import 'package:flutter_tv_show_app/screen/favorite.dart';
 import 'package:flutter_tv_show_app/screen/home.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_tv_show_app/screen/tv_show_detail.dart';
 
 import 'bloc/tv_show_bloc.dart';
 
@@ -29,6 +30,9 @@ class MyApp extends StatelessWidget {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: MyHomePage(title: 'TV show home page'),
+      routes: {
+        '/detail': (context)=>const TVShowDetailScreen(),
+      },
     );
   }
 }

@@ -10,7 +10,6 @@ class HomeScreen extends StatefulWidget {
 }
 
 class _HomeScreenState extends State<HomeScreen> {
-
   @override
   void initState() {
     super.initState();
@@ -20,35 +19,34 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: Text(
-          'Popular Movies',
+        appBar: AppBar(
+          title: Text(
+            'Popular Movies',
+          ),
+          centerTitle: true,
         ),
-        centerTitle: true,
-      ),
-      body: BlocBuilder<ShowBloc, ShowState>(
-        cubit: BlocProvider.of<ShowBloc>(context),
-        builder:(context, state) {
-          return SafeArea(child: Stack(
-            children: [
-              Container(
-                color: Colors.white,
-                child: Column(
-                  children: [
-                    SearchBarWidget(),
-                    Divider(
-                      height: 3,
-                      color: Colors.black54,
+        body: BlocBuilder<ShowBloc, ShowState>(
+            cubit: BlocProvider.of<ShowBloc>(context),
+            builder: (context, state) {
+              return SafeArea(
+                  child: Stack(
+                children: [
+                  Container(
+                    color: Colors.white,
+                    child: Column(
+                      children: [
+                        SearchBarWidget(),
+                        Divider(
+                          height: 3,
+                          color: Colors.black54,
+                        ),
+                        Expanded(child: ShowListWidget()),
+                      ],
                     ),
-                    Expanded(child: ShowListWidget()),
-                  ],
-                ),
-              )
-            ],
-          ));
-        }
-      )
-    );
+                  )
+                ],
+              ));
+            }));
   }
 }
 
@@ -58,12 +56,10 @@ class SearchBarWidget extends StatefulWidget {
 }
 
 class _SearchBarWidgetState extends State<SearchBarWidget> {
-
   final _keywordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
-
     var keywordBox = Container(
         height: 40,
         child: TextField(
@@ -95,11 +91,10 @@ class _SearchBarWidgetState extends State<SearchBarWidget> {
           BlocProvider.of<ShowBloc>(context)
               .add(ShowSearchButtonClickedEvent());
           if (_keywordController.text == '')
-            BlocProvider.of<ShowBloc>(context).add(
-                ShowLoadEvent());
+            BlocProvider.of<ShowBloc>(context).add(ShowLoadEvent());
           else
-            BlocProvider.of<ShowBloc>(context).add(
-                ShowSearchEvent(searchWord: _keywordController.text));
+            BlocProvider.of<ShowBloc>(context)
+                .add(ShowSearchEvent(searchWord: _keywordController.text));
         },
       ),
     );
@@ -134,7 +129,6 @@ class _ShowListWidgetState extends State<ShowListWidget> {
 
   final _scrollThreshold = 20.0;
 
-
   int maxPage = 1;
   EnumShowEvent kind = EnumShowEvent.Load;
   String searchWord = '';
@@ -164,15 +158,29 @@ class _ShowListWidgetState extends State<ShowListWidget> {
               ),
             );
           }
-          return ListView.builder(
-            itemBuilder: (BuildContext context, int index) {
-              return MovieItemForm(
-                showModel: state.showList[index],
-              );
-            },
-            itemCount: state.showList != null ? state.showList.length : 0,
-            controller: _scrollController,
-          );
+          return GridView.builder(
+              gridDelegate: const SliverGridDelegateWithMaxCrossAxisExtent(
+                  mainAxisSpacing: 10,
+                crossAxisSpacing: 10,
+                mainAxisExtent: 440,
+                maxCrossAxisExtent: 220,
+                childAspectRatio: 1/2,
+              ),
+              itemCount: state.showList != null ? state.showList.length : 0,
+              itemBuilder: (BuildContext context, int index) {
+                return MovieItemForm(
+                  showModel: state.showList[index],
+                );
+              });
+//          return ListView.builder(
+//            itemBuilder: (BuildContext context, int index) {
+//              return MovieItemForm(
+//                showModel: state.showList[index],
+//              );
+//            },
+//            itemCount: state.showList != null ? state.showList.length : 0,
+//            controller: _scrollController,
+//          );
         }
         return Container();
       },
@@ -186,11 +194,9 @@ class _ShowListWidgetState extends State<ShowListWidget> {
         maxScroll - currentScroll <= _scrollThreshold &&
         bloc != null) {
       if (kind == EnumShowEvent.Load)
-        bloc.add(
-            ShowLoadEvent(page: maxPage + 1));
+        bloc.add(ShowLoadEvent(page: maxPage + 1));
       else
-        bloc.add(ShowSearchEvent(
-            searchWord: searchWord, page: maxPage + 1));
+        bloc.add(ShowSearchEvent(searchWord: searchWord, page: maxPage + 1));
       Future.delayed(Duration(milliseconds: 200), () {});
     }
   }

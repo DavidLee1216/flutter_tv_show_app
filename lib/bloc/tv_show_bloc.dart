@@ -3,9 +3,12 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_tv_show_app/model/tv_show_model.dart';
 import 'package:flutter_tv_show_app/repository/tv_show_repository.dart';
 
+import '../model/favorite_model.dart';
+import '../service/db_helper.dart';
+
 abstract class ShowEvent {}
 
-enum EnumShowEvent { Load, Search }
+enum EnumShowEvent { Load, Search, Favorites }
 
 class ShowLoadEvent extends ShowEvent {
   final int page;
@@ -18,6 +21,10 @@ class ShowSearchEvent extends ShowEvent {
   final String searchWord;
   final int page;
   ShowSearchEvent({@required this.searchWord, this.page = 1});
+}
+
+class ShowFavoritesEvent extends ShowEvent {
+  ShowFavoritesEvent();
 }
 
 class ShowState {
@@ -54,6 +61,13 @@ class ShowBloc extends Bloc<ShowEvent, ShowState> {
   TVShowRepository showRepository;
   ShowBloc({this.showRepository}) : super(ShowState());
 
+  Future<List<FavoriteShow>> getFavorites() async{
+    DBHelper dbHelper = DBHelper();
+//    await dbHelper.dropTable();
+    List<FavoriteShow> favorites = await dbHelper.getAllFavorites();
+    return favorites;
+  }
+
   @override
   Stream<ShowState> mapEventToState(ShowEvent event) async* {
     yield state.submitting();
@@ -87,6 +101,25 @@ class ShowBloc extends Bloc<ShowEvent, ShowState> {
             kind: EnumShowEvent.Search,
             keyword: event.searchWord,
             showList: []);
+      }
+    } else if(event is ShowFavoritesEvent) {
+      try {
+        List<FavoriteShow> favorites = await getFavorites();
+        if(favorites.length > 0){
+
+        } else{
+          yield ShowState(
+            kind: EnumShowEvent.Favorites,
+            keyword: '',
+            showList: []
+          );
+        }
+      } catch (e) {
+        yield ShowState(
+          kind: EnumShowEvent.Favorites,
+          keyword: '',
+          showList: [],
+        );
       }
     }
   }

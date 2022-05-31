@@ -31,6 +31,7 @@ Future<TotalTVShows> loadWholePopularShows({int page = 1}) async {
     return TotalTVShows.fromMap(data);
   } else {
     showToastMessage(text: data['status_message']);
+    return null;
 //    showToastMessage(text: 'Can\'t get requested data' , position: 1);
   }
 }
@@ -46,5 +47,6 @@ Future<TotalTVShows> searchTVShows({int page = 1, String query}) async {
     return TotalTVShows.fromMap(data);
   } else {
     showToastMessage(text: data['status_message']);
+    return null;
   }
 }
