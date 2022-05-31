@@ -17,3 +17,12 @@ https://user-images.githubusercontent.com/55806398/171208265-9aca9d18-5ab2-4313-
 
 
 Web app uses local storage to save favorite information.
+
+
+Used APIs: https://api.themoviedb.org/3/tv/popular
+           https://api.themoviedb.org/3/search/tv
+Tech Stack: Flutter, 
+
+Implemented BLoC architecture using flutter-bloc.
+Used Material Design for flutter.
+   
